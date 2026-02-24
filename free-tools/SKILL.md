@@ -1,274 +1,269 @@
 ---
-name: free-tools
+name: free-tool-research
 description: >
-  Generate free interactive tool pages for Next.js websites to drive organic SEO traffic.
-  Creates complete tool pages with forms, live results, loading states, SEO metadata, JSON-LD,
-  rate limiting, and a hub page. Use when the user wants to build free tools, calculators,
-  analyzers, or checkers for their website to attract organic traffic and convert visitors.
+  Research competitor free tools and generate ideas for free tools to drive organic SEO traffic.
+  Identifies free tools that competitors use to attract organic search traffic, generates actionable
+  tool ideas, and provides complete best practices for building SEO-optimized free tool pages with
+  JSON-LD schemas, conversion strategy, and internal linking architecture.
 metadata:
   author: vood
   version: "1.0"
 compatibility: >
-  Requires Next.js 14+ with App Router, Tailwind CSS, and shadcn/ui components
-  (Button, Input, Label, Skeleton). Optional: next-safe-action for server actions,
-  recharts for data visualization.
+  Works with any web framework. Page-building best practices reference Next.js App Router patterns
+  but the SEO strategy, JSON-LD schemas, and content guidelines apply universally.
 ---
 
-# Free SEO Tool Pages Generator
+# Free Tool SEO Research
 
-Generate free interactive tool pages that drive organic search traffic and convert visitors into product users. Each tool works without login, returns live results, and funnels to the paid product.
+Research competitor free tools and generate ideas for free tools to drive organic traffic.
 
-## When to Use
+## Trigger
+Use when user says "research free tools", "free tool ideas", "SEO tools research", "/free-tool-research", or asks about what free tools competitors offer and what tools could be built for marketing.
 
-Use this skill when the user wants to:
-- Build free tools / calculators / analyzers for their website
-- Create lead-generation tool pages for SEO
-- Add interactive tool pages that rank for "[topic] + tool/calculator/checker" keywords
-- Build a tools hub page with multiple free tools
+## Goal
+Identify free tools that competitors and adjacent companies use to attract organic search traffic, then generate actionable free tool ideas for our product that would rank well and convert visitors.
 
-## Architecture Overview
+## Process
+
+### Step 1: Understand the Product
+Before researching, confirm the product context:
+- What does the product do? (check CLAUDE.md, homepage, or ask the user)
+- Who is the target audience?
+- What are the core keywords/topics?
+
+If working on Mentioned.to: the product is a Reddit marketing automation platform. Target audience is marketers, founders, and growth teams who want to monitor Reddit mentions, track competitors, and engage in relevant conversations.
+
+### Step 2: Identify Competitors & Adjacent Companies
+Search the web for:
+1. **Direct competitors** — tools in the same space
+2. **Adjacent tools** — related categories that share the same audience
+
+For each, look for `/tools`, `/free-tools`, `/resources`, or similar sections on their websites.
+
+### Step 3: Research Competitor Free Tools
+For each competitor/adjacent company found, catalog their free tools:
+
+| Company | Tool Name | URL | What It Does | Target Keyword | Est. Traffic |
+|---------|-----------|-----|-------------|----------------|-------------|
+
+Focus on tools that:
+- Have their own landing page (good for SEO)
+- Target a specific search query (e.g., "reddit username checker", "subreddit analyzer")
+- Are simple enough to build as a single page
+- Serve as a lead magnet (free value → signup)
+
+### Step 4: Keyword Research for Tool Ideas
+Search for queries like:
+- "[topic] free tool"
+- "[topic] calculator"
+- "[topic] checker"
+- "[topic] analyzer"
+- "[topic] generator"
+- "free [topic] tool online"
+- "reddit [X] tool"
+
+Use web search to find:
+- Google autocomplete suggestions
+- "People also ask" patterns
+- Existing tools ranking for these terms
+- Search volume indicators (competition level, number of results)
+
+### Step 5: Generate Tool Ideas
+For each idea, provide:
 
 ```
-app/tools/
-├── layout.tsx                          # Shared tools layout (header/footer)
-├── page.tsx                            # Hub page listing all tools
-└── [tool-slug]/
-    ├── layout.tsx                      # Per-tool metadata + JSON-LD (Server Component)
-    └── page.tsx                        # Tool UI + results ('use client')
-
-components/tools/
-├── tool-page-layout.tsx                # Wraps each tool page with standard sections
-├── faq-section.tsx                     # FAQ accordion + FAQPage JSON-LD
-├── cta-banner.tsx                      # Conversion CTA section
-└── related-tools.tsx                   # Cross-linking grid
-
-lib/rate-limit.ts                       # IP-based rate limiter (for server-action tools)
-lib/actions/[tool-actions].ts           # Server actions (for API-backed tools)
+### [Tool Name]
+- **Target keyword**: the primary search query this would rank for
+- **What it does**: 1-2 sentence description
+- **How it connects to our product**: why this attracts our ideal customer
+- **Complexity**: Low / Medium / High (implementation effort)
+- **Example competitors doing this**: who already has something similar
+- **Differentiation angle**: what we'd do better or differently
 ```
 
-## Step-by-Step Process
+### Step 6: Prioritize
+Rank ideas by:
+1. **SEO potential** — search volume and ranking difficulty
+2. **Relevance** — how well it attracts our target user
+3. **Build effort** — how quickly we can ship it
+4. **Conversion path** — how naturally it leads to signup
 
-### Step 1: Gather Requirements
+Present a final prioritized list with top 5-10 recommendations.
 
-Ask the user:
-1. What tools do they want to build? (calculators, analyzers, checkers, finders)
-2. What data sources do they have? (APIs, databases, or pure client-side calculations)
-3. What's the product name and CTA destination? (sign-up URL, booking URL)
-4. What keywords are they targeting? (e.g., "reddit sentiment analyzer", "SEO audit tool")
+## Output Format
+Save research results to `research-output/free-tool-research.md` with:
+1. Competitor free tool inventory
+2. Keyword opportunities found
+3. Prioritized tool ideas with full details
+4. Recommended top 5 to build first
 
-### Step 2: Create Shared Components
+---
 
-Create these 4 components in `components/tools/`:
+## Free Tool Page Best Practices
 
-#### tool-page-layout.tsx
-```tsx
-// Props interface:
-interface ToolPageLayoutProps {
-  howItWorks: { title: string; description: string }[];
-  features: { title: string; description: string }[];
-  faqs: { question: string; answer: string }[];
-  relatedTools: { slug: string; title: string; description: string }[];
-  ctaHeadline?: string;
-  ctaDescription?: string;
-  children: React.ReactNode; // Hero + form + results go here
+When building a free tool page, follow these guidelines. Every tool page should be a self-contained SEO landing page that ranks, converts, and links to the rest of the tool ecosystem.
+
+### Page Anatomy (top to bottom)
+
+1. **Breadcrumbs** — `Home > Free Tools > [Tool Name]` (with BreadcrumbList JSON-LD)
+2. **Hero Section**
+   - H1: clear, keyword-rich title (e.g., "Free Reddit Username Checker")
+   - Subtitle: 1 sentence explaining value ("Check if any Reddit username is available, taken, or shadowbanned")
+   - The tool itself (input + button) — immediately usable, no signup wall
+3. **Tool UI** — the interactive tool, above the fold if possible
+4. **Results area** — where output appears after running the tool
+5. **How It Works** — 3-4 numbered steps with icons explaining the process (with HowTo JSON-LD)
+6. **Key Features** — 4-6 feature cards explaining what makes this tool useful
+7. **Who Is This For** — 3-5 audience personas (Marketers, Founders, Researchers, etc.)
+8. **Educational Content** — 300-800 words of genuinely useful content about the topic. This is the SEO body. Use H2/H3 subheadings targeting related long-tail keywords.
+9. **FAQ Section** — 5-8 questions (with FAQPage JSON-LD). Mix tool-specific Qs with topic Qs.
+10. **Related Tools** — grid/cards linking to 3-6 other free tools (internal linking hub)
+11. **CTA Banner** — soft conversion: "Want to automate this? Try [Product] free" with signup button
+12. **Footer** — standard site footer
+
+### Required JSON-LD Schema
+
+Every tool page MUST include these structured data types:
+
+```jsonld
+// 1. WebApplication — tells Google this is a tool
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Free Reddit Username Checker",
+  "description": "Check if a Reddit username is available, taken, or shadowbanned.",
+  "url": "https://mentioned.to/tools/reddit-username-checker",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "Any",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "author": {
+    "@type": "Organization",
+    "name": "Mentioned.to"
+  }
 }
 ```
 
-Renders in order:
-1. `{children}` — hero, form, loading states, results
-2. "How it works" — numbered steps in an `<ol>`
-3. "What you'll get" — 2-column feature grid
-4. FAQ section — collapsible accordion with JSON-LD injection
-5. Related tools — 3-column grid linking to sibling tools
-6. CTA banner — conversion section with primary + secondary buttons
-
-#### faq-section.tsx
-- Render FAQ items using `<details>/<summary>` elements
-- Inject `FAQPage` JSON-LD via `<script type="application/ld+json">`
-- Each FAQ item has a chevron icon that rotates on open
-
-#### cta-banner.tsx
-- Section with headline, description, and two buttons:
-  - Primary: "Start Free Trial" → `/sign-up`
-  - Secondary: "Book a Call" → booking URL
-- Style: `rounded-2xl border border-border/60 bg-muted/30 px-6 py-6`
-
-#### related-tools.tsx
-- Grid of tool cards (responsive: 1 col → 2 col → 3 col)
-- Each card: title + description + "Try it free →" arrow link
-- Links to `/tools/{slug}`
-
-### Step 3: Create Tools Layout
-
-`app/tools/layout.tsx` — Server Component that provides:
-- Header with logo, nav links (Tools, Pricing, Log in, Sign up), and CTA button
-- Footer with copyright and navigation links
-- Mirror the site's existing marketing layout if one exists
-
-### Step 4: Create Hub Page
-
-`app/tools/page.tsx` — defines a `TOOLS` array and renders a grid:
-
-```tsx
-const TOOLS = [
-  { slug: 'tool-slug', title: 'Display Name', description: '1-2 sentence description' },
-  // ...
-];
-```
-
-Pattern:
-- "FREE TOOLS" badge at top
-- H1 with colored accent: `<span className="text-primary">Keyword</span>`
-- Responsive grid of tool cards (2 columns on sm+)
-- Each card links to `/tools/{slug}` with title, description, "Try it free →"
-
-### Step 5: Create Individual Tool Pages
-
-Each tool has two files:
-
-#### layout.tsx (Server Component)
-```tsx
-export const metadata: Metadata = {
-  title: 'Free [Tool Name] | [Brand]',
-  description: 'SEO description with target keywords...',
-  openGraph: { title, description, type: 'website' },
-  alternates: { canonical: 'https://domain.com/tools/[slug]' },
-};
-
-// JSON-LD with @graph containing:
-// 1. WebApplication (name, url, applicationCategory, offers: price '0')
-// 2. BreadcrumbList (Home → Tools → Current Tool)
-// 3. HowTo (steps matching the page's "How it works")
-```
-
-#### page.tsx ('use client')
-
-Two patterns depending on data source:
-
-**Pattern A: Client-Side Calculator** (no API needed)
-```tsx
-// useState for inputs, useMemo for calculations
-// No server action, results compute instantly
-// Show results section when all required inputs have values
-```
-
-**Pattern B: Server-Action Tool** (API-backed)
-```tsx
-// useAction from next-safe-action/hooks
-const { execute, status, result } = useAction(serverAction);
-const isLoading = status === 'executing';
-
-// Form → Loading skeletons → Results
-// Error handling: result.data.error (rate limit) or result.serverError
-```
-
-**Page anatomy for both patterns:**
-1. Hero: "FREE TOOL" badge → H1 with colored span → description
-2. Form section: inputs in a bordered card, full-width submit button
-3. Loading state: Skeleton placeholders matching result layout
-4. Results section: data cards, charts, tables, lists
-5. Wrapped in `<ToolPageLayout>` with howItWorks, features, faqs, relatedTools
-
-**Each page defines these constants:**
-```tsx
-const HOW_IT_WORKS = [
-  { title: 'Step name', description: 'What happens in this step.' },
-  // 3 steps
-];
-const FEATURES = [
-  { title: 'Feature name', description: 'What this feature provides.' },
-  // 4 features
-];
-const FAQS = [
-  { question: 'Common question?', answer: 'Clear answer.' },
-  // 4 FAQs with target keywords
-];
-const RELATED_TOOLS = [
-  { slug: 'other-tool', title: 'Other Tool', description: 'Short description.' },
-  // 2-3 related tools
-];
-```
-
-### Step 6: Rate Limiting (for server-action tools)
-
-Create `lib/rate-limit.ts` — in-memory token bucket:
-- 5 tokens per IP per tool per hour
-- Key format: `${ip}:${toolName}`
-- Lazy cleanup of entries older than 2 hours
-- Returns: `{ allowed: boolean, remaining: number, retryAfterMs: number }`
-
-IP detection:
-```tsx
-async function getClientIp(): Promise<string> {
-  const h = await headers();
-  return h.get('x-forwarded-for')?.split(',')[0]?.trim() || h.get('x-real-ip') || 'unknown';
-}
-```
-
-### Step 7: Server Actions (for API-backed tools)
-
-Pattern using next-safe-action:
-```tsx
-export const actionName = actionClient
-  .schema(z.object({ /* zod schema */ }))
-  .action(async ({ parsedInput }) => {
-    const ip = await getClientIp();
-    const rateCheck = checkRateLimit(ip, 'toolName');
-    if (!rateCheck.allowed) {
-      return { error: `Rate limit exceeded. Try again in ${Math.ceil(rateCheck.retryAfterMs / 60000)} minutes.`, rateLimited: true };
+```jsonld
+// 2. FAQPage — for the FAQ section
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How do I check if a Reddit username is taken?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Enter the username above and click Check..."
+      }
     }
-
-    // Use Promise.allSettled for resilience against API failures
-    const [result1, result2] = await Promise.allSettled([apiCall1(), apiCall2()]);
-    const data1 = result1.status === 'fulfilled' ? result1.value : [];
-
-    return { /* processed results */ };
-  });
+  ]
+}
 ```
 
-### Step 8: Update Sitemap
-
-Add all tool URLs to `sitemap.ts`:
-```tsx
-{ url: `${BASE_URL}/tools`, priority: 0.8 },
-{ url: `${BASE_URL}/tools/[slug]`, priority: 0.7 },
+```jsonld
+// 3. BreadcrumbList — for navigation
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://mentioned.to" },
+    { "@type": "ListItem", "position": 2, "name": "Free Tools", "item": "https://mentioned.to/tools" },
+    { "@type": "ListItem", "position": 3, "name": "Reddit Username Checker" }
+  ]
+}
 ```
 
-### Step 9: Update Navigation
+```jsonld
+// 4. HowTo — for the "How It Works" section
+{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "How to Check a Reddit Username",
+  "step": [
+    { "@type": "HowToStep", "name": "Enter username", "text": "Type the Reddit username you want to check" },
+    { "@type": "HowToStep", "name": "Click Check", "text": "Press the Check button to run the lookup" },
+    { "@type": "HowToStep", "name": "View results", "text": "See if the username is available, taken, or banned" }
+  ]
+}
+```
 
-Add "Tools" link to the site's marketing header and footer navigation.
+### SEO Checklist
 
-## Visual & Styling Conventions
+- [ ] **Title tag**: "Free [Tool Name] — [Brand] | Check/Analyze/Generate [X] Online"
+- [ ] **Meta description**: action-oriented, includes primary keyword, under 160 chars
+- [ ] **H1**: matches target keyword exactly (one H1 per page)
+- [ ] **URL**: `/tools/[keyword-slug]` — clean, short, keyword-rich
+- [ ] **Open Graph tags**: title, description, image (for social sharing)
+- [ ] **Canonical URL**: self-referencing canonical tag
+- [ ] **Page speed**: tool loads under 2 seconds, no heavy JS bundles
+- [ ] **Mobile-first**: tool is fully usable on mobile (inputs, buttons, results)
+- [ ] **No signup wall**: tool works without login (collect emails optionally after results)
+- [ ] **Internal links**: link to 3-6 related tools + main product pages
+- [ ] **External links**: 1-2 authoritative references in educational content
+- [ ] **Image alt text**: descriptive alt on any screenshots or diagrams
+- [ ] **Sitemap**: tool page included in XML sitemap
 
-- Container: `max-w-4xl mx-auto px-4 sm:px-6`
-- Section spacing: `space-y-12` between major sections
-- Cards: `rounded-2xl border border-border/60 bg-muted/30 px-6 py-6`
-- H1: `text-4xl md:text-5xl font-bold leading-tight`
-- H2: `text-2xl font-semibold`
-- Badge: `text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground`
-- Primary metrics: `text-3xl font-bold text-primary`
-- Submit button: `<Button type="submit" size="lg" className="w-full">`
-- Loading: `<Loader2 className="h-4 w-4 mr-2 animate-spin" />` in button
-- Skeletons: `<Skeleton className="h-24 w-full rounded-xl" />`
-- Errors: `<p className="text-sm text-destructive">{errorMessage}</p>`
-- Links: External links get `target="_blank" rel="noopener noreferrer"`
+### Content Guidelines
 
-## Cross-Linking Strategy
+**Educational section (below the tool)**:
+- Write for humans first, not Google — genuinely helpful content
+- Target 2-3 secondary long-tail keywords in H2/H3 headings
+- Include concrete examples, not generic filler
+- Link to related blog posts or guides if they exist
+- Keep paragraphs short (2-3 sentences max)
 
-- Each tool's `RELATED_TOOLS` should reference 2-3 sibling tools
-- If tool A links to B, tool B should link back to A
-- Hub page links to all tools
-- CTA banners link to sign-up and booking
+**FAQ section**:
+- Lead with the most-searched question (check "People Also Ask")
+- Mix question types: "How do I...", "What is...", "Why should I...", "Is it free..."
+- Keep answers concise (2-4 sentences) but complete
+- Include the target keyword naturally in at least 2 Q&A pairs
+- Always include "Is this tool free?" → yes, reinforces the free positioning
 
-## SEO Checklist
+### Conversion Strategy
 
-For each tool page verify:
-- [ ] Title includes "Free" + tool name + brand
-- [ ] Meta description includes target keyword
-- [ ] Canonical URL is set
-- [ ] JSON-LD has WebApplication, BreadcrumbList, HowTo, FAQPage schemas
-- [ ] H1 uses target keyword with colored accent span
-- [ ] FAQs include natural keyword variations
-- [ ] Hub page links to all tools
-- [ ] Sitemap includes all tool URLs
-- [ ] Tools nav link added to site header/footer
+- **No gate on the tool itself** — free tools must be free. No signup to use.
+- **Soft CTA after results** — "Want to monitor this automatically? Try Mentioned.to"
+- **Email capture** — optional: "Get results emailed to you" (collects leads)
+- **Shareable results** — unique URL or downloadable output that earns backlinks
+- **Upgrade nudge** — show what the paid product adds (e.g., "Track 50+ competitors continuously")
+
+### Internal Linking Architecture
+
+Build a **tools hub page** at `/tools` that links to all individual tool pages:
+```
+/tools (hub) ← high-authority page
+  ├── /tools/reddit-username-checker
+  ├── /tools/subreddit-analyzer
+  ├── /tools/reddit-post-title-generator
+  └── /tools/share-of-voice-calculator
+```
+
+Each tool page should:
+- Link back to the hub (`/tools`)
+- Link to 3-6 sibling tools ("Related Tools" section)
+- Link to 1-2 relevant blog posts
+- Link to the main product signup page (CTA)
+
+This creates a topical cluster that signals authority to search engines.
+
+### Technical Implementation Notes
+
+- Use Next.js dynamic `<Script>` or `<script type="application/ld+json">` for JSON-LD
+- Put JSON-LD in the page's `<head>` via `metadata` export or `generateMetadata`
+- Validate all schema at https://validator.schema.org/ and Google Rich Results Test
+- Use `generateMetadata()` for dynamic title/description per tool page
+- Implement as static pages (SSG) where possible for speed
+- Add loading states for tool results (skeleton, spinner) to avoid layout shift
+
+## Tips
+- Look at Product Hunt for inspiration on popular free tools
+- Check Ahrefs/SEMrush free tool pages as best-in-class examples of this strategy
+- Small, focused tools (one input, one output) tend to rank better than complex apps
+- Tools that generate shareable outputs get natural backlinks
+- Calculator and checker tools convert well because they imply the user has a problem to solve
+- Best-in-class examples to study: Ahrefs (`/free-seo-tools`), SmallSEOTools, PrePostSEO, Omni Calculator
