@@ -399,9 +399,78 @@ Every post must include:
 - Use descriptive anchor text (not "click here")
 ```
 
-### Step 6: Create Topic Queue File (Optional)
+### Step 6: Research Competitors for Topic Ideas
 
-If the user wants a topic queue, create `content/topics.yml`:
+Before populating the topic queue, research competitor and adjacent company blogs to find what topics rank well, identify content gaps, and generate high-value topic ideas.
+
+#### 6a: Identify Competitors & Adjacent Companies
+
+Ask the user for their competitors, or discover them:
+
+1. **Direct competitors** — tools in the same space as the user's product
+2. **Adjacent tools** — related categories that share the same target audience
+3. **Industry thought leaders** — blogs that cover the same topics
+
+For each, look for their `/blog`, `/resources`, `/learn`, or `/guides` sections.
+
+#### 6b: Catalog Competitor Blog Content
+
+For each competitor blog, search the web and catalog:
+
+| Company | Blog URL | Top Topics | Reddit/AI-Related Posts | Estimated Frequency |
+|---------|----------|------------|------------------------|---------------------|
+
+Focus on:
+- Their most-linked and most-shared posts (indicates what resonates)
+- Posts targeting keywords relevant to the user's product
+- Content formats they use (guides, comparisons, how-tos, data studies, listicles)
+- Topics they cover repeatedly (signals proven demand)
+
+#### 6c: Find Content Gaps
+
+Identify topics that:
+- **No competitor covers well** — thin content, outdated posts, or missing entirely
+- **Have search demand** — check Google autocomplete, "People Also Ask", and related searches for queries like:
+  - "[product category] + guide/tips/strategy/tools/examples"
+  - "[competitor name] + alternatives/vs/review"
+  - "[target audience] + [problem the product solves]"
+  - "how to [action the product enables]"
+- **Are trending** — new developments, emerging trends, or recent changes in the industry that competitors haven't covered yet
+
+#### 6d: Generate & Prioritize Topic Ideas
+
+For each topic idea, provide:
+
+```
+### [Topic Title]
+- **Target keyword**: the primary search query this would rank for
+- **Search intent**: informational / commercial / comparison
+- **Content format**: how-to guide / listicle / comparison / data study / opinion
+- **Brief**: 2-3 sentences on what the post should cover
+- **Why this matters**: competitive gap, search demand signal, product relevance
+- **Competitors covering this**: who has similar content (or "none")
+- **Differentiation**: what angle or insight makes our version better
+```
+
+Rank all ideas by:
+1. **SEO potential** — search volume indicators and ranking difficulty
+2. **Product relevance** — how naturally the topic leads to the user's product
+3. **Content gap** — how poorly competitors cover it (bigger gap = bigger opportunity)
+4. **Freshness** — timely topics that capitalize on recent trends
+
+Present the top 15-20 topics as the recommended topic queue.
+
+#### 6e: Save Research Output
+
+Save the full research findings to `research-output/blog-topic-research.md` with:
+1. Competitor blog inventory (what they publish, how often, top topics)
+2. Content gap analysis
+3. Keyword opportunities found
+4. Prioritized topic list with full details
+
+### Step 7: Create Topic Queue File
+
+Create `content/topics.yml` populated with the prioritized topics from Step 6:
 
 ```yaml
 # Blog Topic Queue
@@ -411,23 +480,31 @@ If the user wants a topic queue, create `content/topics.yml`:
 topics:
   - title: "How to Monitor Reddit Mentions for Your Brand"
     keyword: "reddit brand monitoring"
+    intent: informational
+    format: how-to guide
     brief: "Guide for marketers on setting up Reddit mention tracking. Cover manual methods vs automated tools. Include real examples of brands responding to Reddit mentions."
     status: pending
 
   - title: "Share of Voice on Reddit: What It Is and How to Measure It"
     keyword: "reddit share of voice"
+    intent: informational
+    format: data study
     brief: "Explain SOV in the context of Reddit discussions. How to calculate it, why it matters for competitive intelligence, and how to improve it."
     status: pending
 
   - title: "Reddit Marketing Strategy for B2B SaaS Companies"
     keyword: "reddit marketing b2b saas"
+    intent: commercial
+    format: guide
     brief: "Tactical guide for B2B SaaS companies. Which subreddits to target, how to engage authentically, measuring ROI. Include dos and don'ts."
     status: pending
 ```
 
-Populate with topics relevant to the user's product and target keywords. Each topic should have:
+Each topic should have:
 - `title` — working title (Claude may refine it)
 - `keyword` — primary SEO keyword to target
+- `intent` — informational, commercial, or comparison
+- `format` — how-to guide, listicle, comparison, data study, opinion
 - `brief` — 2-3 sentences describing what the post should cover
 - `status` — `pending` (unwritten), `written` (generated), `published` (live)
 
